@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="gfl1.0_beta">
+	<taskdef resource="flexTasks.tasks" classpath="${basedir}\ant\lib\flexTasks.jar" />
+
+	<!-- Properties -->
+	<property name="FLEX_HOME" value="${basedir}"/>
+	<property name="workspace.root" value="."/>
+	<property name="project.dir" value="gfl1.0_beta"/>
+	<property name="deploy.dir" value="${workspace.root}/${project.dir}/bin"/>
+	<property name="namespace.name" value="http://dev.golfzon.com/ria/2009"/>
+	<property name="src.dir" value="${workspace.root}/${project.dir}/src"/>
+	<property name="lib.dir" value="${workspace.root}/${project.dir}/libs"/>
+
+	<!-- 컴파일된 swc 파일 -->
+	<property name="swc.file" value="${deploy.dir}/gfl1.0_beta.swc" />
+          
+	<!-- 빌드 초기화 -->
+	<target name="clean">
+		<echo>Building deploy.dir : ${deploy.dir}</echo>
+		<delete dir="${deploy.dir}" />
+	</target>
+
+	<!-- RSL파일 생성
+	<target name="extract" description="Extract SWC" depends="compile">
+		<unzip src="${swc.file}" dest="${deploy.dir}"/>
+		<move file="${deploy.dir}/library.swf" tofile="${deploy.dir}/gfl.swf"/>
+	</target>
+	-->
+
+	<!-- SWC 컴파일 -->
+	<target name="compile" description="Compile gfl1.0_beta SWC.">
+		<echo>Building ${swc.file}</echo>
+		<compc output="${swc.file}" locale="en_US">
+			<namespace uri="${namespace.name}" manifest="${src.dir}/manifest.xml"/>
+			<include-namespaces uri="${namespace.name}"/>
+			<strict>true</strict>
+			<optimize>true</optimize>
+			<warnings>true</warnings>
+			<source-path path-element="${src.dir}"/>
+			<compute-digest>false</compute-digest>
+			
+			<compiler.include-libraries dir="${lib.dir}" append="true">
+			    <include name="collection.swc" />
+			    <include name="gs.swc" />
+			    <include name="purecommand.swc" />
+			</compiler.include-libraries>
+		</compc>
+	</target>
+</project>
