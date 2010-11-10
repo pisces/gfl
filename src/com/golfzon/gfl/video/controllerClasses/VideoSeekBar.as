@@ -150,6 +150,8 @@ public class VideoSeekBar extends SliderBase
 	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 		super.updateDisplayList(unscaledWidth, unscaledHeight);
 		
+		trace(highlight.y, loadProgressBar.y, thumb.y);
+		
 		if( highlight ) {
 			highlight.x = track.x;
 			highlight.y = track.y;

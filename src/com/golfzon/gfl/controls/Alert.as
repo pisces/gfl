@@ -137,10 +137,10 @@ public class Alert extends Panel
 	public static var buttonWidth:Number = 70;
 	public static var buttonHeight:Number = 20;
 	
-	public static var okLabel:String = "확인";
-	public static var cancelLabel:String = "취소";
-	public static var yesLabel:String = "예";
-	public static var noLabel:String = "아니오";
+	public static var okLabel:String = "ok";
+	public static var cancelLabel:String = "cancel";
+	public static var yesLabel:String = "yes";
+	public static var noLabel:String = "no";
 	
 	//--------------------------------------------------------------------------
 	//
