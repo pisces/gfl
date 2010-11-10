@@ -327,6 +327,7 @@ public class BaseVideoController extends BorderBasedComponent implements IVideoC
 		timeLabel.y = uint((unscaledHeight - timeLabel.measuredHeight) / 2);
 		seekBar.width = modeButton.x - (timeLabel.x + timeLabel.measuredWidth) - 8;		
 		seekBar.x = timeLabel.x + timeLabel.measuredWidth + 7;
+		seekBar.y = (unscaledHeight - seekBar.height)/2 - 4;		
 	}
 	
 	//--------------------------------------------------------------------------

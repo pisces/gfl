@@ -106,6 +106,7 @@ public class DataGrid extends ListBase
 	private var gridBackgroundShape:Shape;
 	private var gridLineShape:Shape;
 	private var resizeGuideLineShape:Shape;
+	private var gridBackgroundMask:Shape;
 	
 	private var resizeGuider:Sprite;
 	
@@ -138,7 +139,9 @@ public class DataGrid extends ListBase
 	override protected function createChildren():void {
 		super.createChildren();
 		
+		gridBackgroundMask = new Shape();
 		gridBackgroundShape = new Shape();
+		gridBackgroundShape.mask = gridBackgroundMask;
 		gridLineShape = new Shape();
 		resizeGuideLineShape = new Shape();
 		
@@ -161,6 +164,7 @@ public class DataGrid extends ListBase
 		addChild(gridLineShape);
 		addChild(resizeGuider);
 		addChild(resizeGuideLineShape);
+		addChild(gridBackgroundMask);
 	}
 	
 	override protected function getVScrollBarHeight():Number {
@@ -260,6 +264,12 @@ public class DataGrid extends ListBase
 		getVScrollBar().y = borderThickness + _headerHeight;
 	}
 	
+	override protected function updateItemRendererProperties():void {
+		super.updateItemRendererProperties();
+		
+		gridBackgroundShape.y = verticalLineIndex%2*_rowHeight;
+	}
+	
 	//--------------------------------------------------------------------------
 	//  Internal
 	//--------------------------------------------------------------------------
@@ -319,16 +329,23 @@ public class DataGrid extends ListBase
 		if( !_columns )
 			return;
 		
+		var borderThickness:Number = getBorderThickness();
+		
+		gridBackgroundMask.graphics.clear();
+		gridBackgroundMask.graphics.beginFill(0x0);
+		gridBackgroundMask.graphics.drawRect(
+			borderThickness, borderThickness + _headerHeight, getContentPaneWidth(), getContentPaneHeight());
+		gridBackgroundMask.graphics.endFill();
+		
 		gridBackgroundShape.graphics.clear();
 		
-		var borderThickness:Number = getBorderThickness();
 		var i:int = 0;
 		while( i < _rowCount ) {
 			var color:uint = gridBackgroundColors[i%2];
 			var newY:Number = borderThickness + _headerHeight + (i * _rowHeight);
 			var current:Number = newY + _rowHeight;
 			var max:Number = unscaledHeight - borderThickness;
-			var newHeight:Number = current  > max ? _rowHeight - (current - max) : _rowHeight;
+			var newHeight:Number = current > max ? _rowHeight - (current - max) : _rowHeight;
 			gridBackgroundShape.graphics.beginFill(color, 1);
 			gridBackgroundShape.graphics.drawRect(borderThickness, newY, getContentPaneWidth(), newHeight);
 			
